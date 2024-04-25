@@ -3,14 +3,31 @@ package com.educandoweb.course.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User  implements Serializable {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity // Para instruir o JPA, passar de POO para relacional, ao conectar ao banco
+@Table(name = "tb_user") // especificando o nome da tabela
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id // especificando que o atributo "id" é a chave primária
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremento, gerado pelo banco
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
+
+	/*
+	 * Após o mapeamento "@Entity...@Id..." Pode-se acessar
+	 * localhost:8080/h2-console que poderá ver a tabela criada com o nome tb_user,
+	 * referente a classe User. h2-console foi o caminho definido em
+	 * application-tes.properties
+	 */
 
 	public User() {
 	}
@@ -79,8 +96,5 @@ public class User  implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
 
 }

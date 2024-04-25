@@ -16,20 +16,18 @@ public class UserResource { // Correspondente web a entidade user
 	 * Método endpoint para acessar/retornar os usuários: ResponseEntity = Tipo de
 	 * retorno específico para retornar respostas de requisições web
 	 */
-	@GetMapping 
-	public ResponseEntity<User> findAll(){
-		User u = new User(1L,"Maria","maria@gmail.com","999999","12345");
-		return ResponseEntity.ok().body(u); 
-		/* 
-		 * .ok() = para retornar a resposta com sucesso
-		 * .body(u) = para enviar o corpo da resposta do usuário u que foi instanciado anteriormente
+	@GetMapping
+	public ResponseEntity<User> findAll() {
+		User u = new User(1L, "Maria", "maria@gmail.com", "999999", "12345");
+		return ResponseEntity.ok().body(u);
+		/*
+		 * .ok() = para retornar a resposta com sucesso .body(u) = para enviar o corpo
+		 * da resposta do usuário u que foi instanciado anteriormente
 		 */
 	}
 	/*
-	 * Após executar, aparece no endereço localhost:8080/users a resposta do método anterior 
+	 * Após executar, aparece no endereço localhost:8080/users a resposta do método
+	 * anterior
 	 */
-	
-	
-	
 
 }
