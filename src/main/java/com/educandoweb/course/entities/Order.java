@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
@@ -22,21 +23,28 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	
-	
+
 	@ManyToOne
-	@JoinColumn(name = "client_id") // Nome da chave estrangeira. 
-	private User client;  // Associação. Um pedido tem Um cliente. 
+	@JoinColumn(name = "client_id") // Nome da chave estrangeira.
+	private User client; // Associação. Um pedido tem Um cliente.
+
+	/*
+	 * O OrderStatus, que é tipo enumerado, será integer, para que seja gravado no
+	 * banco de dados como Inteiro. Mas para isso será feito alterações no
+	 * construtuor e nos get e set.
+	 */
+	private Integer orderStatus;
 
 	public Order() {
 	}
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		this.id = id;
 		this.moment = moment;
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -54,6 +62,24 @@ public class Order implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+
+	/*
+	 * Para que seja retornado um OrderStatus, enquanto Integer, utiliza-se o método
+	 * lá em enum, . valueOf.
+	 */
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	/*
+	 * A alteração necessária precisa de .getCode(); E foi adicionada uma
+	 * vericicação, caso seja passado um valor null;
+	 */
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
+		}
 	}
 
 	public User getClient() {
