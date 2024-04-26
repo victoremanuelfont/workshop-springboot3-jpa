@@ -9,8 +9,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
@@ -25,17 +27,19 @@ public class Product implements Serializable {
 	private String imgUrl;
 
 	/*
-	 * Na associação, será usado o Set. Porque representa um conjunto, para garantir
-	 * que não vou ter um product com mais de uma ocorrencia da mesma category.
+	 * ManyToMany com JoinTable. 1) Escolhe uma das classes, tanto faz, poderia ser
+	 * Product ou Category. Faz o mapeamento @ManyToMany, para que as Coleções Set
+	 * se tornem tabelas no banco de dados. 2) Usa o JoinTable para dizer qual o
+	 * nome da tabela e qual vai ser a chave estrangeira que vai associar a tabela
+	 * de product com a tabela de category. joinColumns = nome da chave estrangeira
+	 * referente a tabela de Product. inverseJoinColumns = Definir a chave
+	 * estrangeira da outra entidade, que nesse caso, como estou na classe Product,
+	 * então é a outra entidade é a tabela da classe Category.
 	 * 
-	 * O set será instanciado para que a coleção não comece valendo nula. Pode
-	 * começar vazia, porém instanciada. Usou-se o hashSet ao inves de Set, pq o set
-	 * é uma interface e por isso não é instanciada.
-	 * 
-	 * "Dentro do Product, tem-se um conjunto de Category"
 	 * 
 	 */
-	@Transient
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
 
 	public Product() {
