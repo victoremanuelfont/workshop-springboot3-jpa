@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.educandoweb.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -17,19 +18,21 @@ public class OrderItem implements Serializable {
 
 	/*
 	 * Primeiro atributo é o identificador que corresponde a chave primária. Vai ser
-	 * do tipo OrderItemPK. O tipo do mapeamento é @EmbeddedId
+	 * do tipo OrderItemPK. O tipo do mapeamento é @EmbeddedId. É necessário
+	 * instanciar para que o valor do id não seja nulo.
 	 */
 	@EmbeddedId
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 
 	private Integer quantity;
 	private Double price;
 
 	public OrderItem() {
 	}
-	
-	/* Adicionados o Order e o public manualmente no construtor,
-	 *  assim como a criação dos get e set
+
+	/*
+	 * Adicionados o Order e o public manualmente no construtor, assim como a
+	 * criação dos get e set
 	 */
 
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
@@ -39,7 +42,16 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 		this.price = price;
 	}
-	
+
+	/*
+	 * Devido a ssociação de mão dupla entre orderItem, e o order, precisa por um
+	 * jsonignore para evitar o loop. Nesse caso, foi colado no get, já que no
+	 * OrderItem, não tem o atributo direto, ele tem o id e o id que tem a
+	 * associação com o Order. Mas o que vale é o metodo Get, pois o GetOrder que
+	 * chama o GetOrderItem, e o getOrderItem chama de novo o getOrder, e então
+	 * entra no loop. 
+	 */
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
