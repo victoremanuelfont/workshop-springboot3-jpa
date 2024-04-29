@@ -34,10 +34,17 @@ public class UserService {
 	public List<User> findAll() { // // Método para retornar todos os usuários do banco de dados
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) { // Método para retornar um usuário por id
-		Optional<User> obj =  repository.findById(id);
+		Optional<User> obj = repository.findById(id);
 		return obj.get(); // vai retornar o valor do id
+	}
+
+	/*
+	 * Operação básica para inserir no banco de dados um novo objeto do tipo User
+	 */
+	public User insert(User obj) {
+		return repository.save(obj);
 	}
 
 }
