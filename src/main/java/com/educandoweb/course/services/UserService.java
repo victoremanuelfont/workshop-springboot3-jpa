@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
 /*
  * Component registration = Quando um objeto vai ser injetado a classe desse objeto 
@@ -37,7 +38,13 @@ public class UserService {
 
 	public User findById(Long id) { // Método para retornar um usuário por id
 		Optional<User> obj = repository.findById(id);
-		return obj.get(); // vai retornar o valor do id
+		/*
+		 * Trocou-se .get por .orElseThrow((, pois o .get da o erro 500. .orElseThrow((
+		 * = funciona assim: ele vai tentar dar o get, se não tiver User, vai lançar a
+		 * exceção.
+		 */
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+
 	}
 
 	/*
