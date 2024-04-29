@@ -46,11 +46,34 @@ public class UserService {
 	public User insert(User obj) {
 		return repository.save(obj);
 	}
-	
+
 	// Vai ser passado o id do usuário e vai ser deletado o usuário daquele id
 	public void delete(Long id) {
 		repository.deleteById(id);
-		
+
+	}
+
+	/*
+	 * getReferenceById = instancia o user mas não vai no banco de dados. updateData
+	 * = Atualiza os dados do entity com base nos dados que chegaram no obj
+	 */
+	public User update(Long id, User obj) {
+		User entity = repository.getReferenceById(id);
+		updateData(entity, obj);
+		return repository.save(entity);
+
+	}
+
+	private void updateData(User entity, User obj) {
+
+		/*
+		 * Atualiza os valores de cada atributo. Nem todos os campos foram atualizados,
+		 * por questões "Regras".
+		 */
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setEmail(obj.getPhone());
+
 	}
 
 }
