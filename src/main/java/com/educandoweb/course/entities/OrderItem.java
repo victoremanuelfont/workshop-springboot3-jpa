@@ -49,7 +49,7 @@ public class OrderItem implements Serializable {
 	 * OrderItem, não tem o atributo direto, ele tem o id e o id que tem a
 	 * associação com o Order. Mas o que vale é o metodo Get, pois o GetOrder que
 	 * chama o GetOrderItem, e o getOrderItem chama de novo o getOrder, e então
-	 * entra no loop. 
+	 * entra no loop.
 	 */
 	@JsonIgnore
 	public Order getOrder() {
@@ -60,7 +60,6 @@ public class OrderItem implements Serializable {
 		id.setOrder(order);
 	}
 
-	
 	public Product getProduct() {
 		return id.getProduct();
 	}
@@ -83,6 +82,14 @@ public class OrderItem implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	/*
+	 * Na plataforma JavaEnterprise, o que vale é o get, então para aparecer no
+	 * resultado, no Json, é necessario colocar get nao método
+	 */
+	public Double getSubTotal() {
+		return quantity * price;
 	}
 
 	@Override
