@@ -36,6 +36,8 @@ public enum OrderStatus {
 			 * Se depois de percorrer todo o for, e o código que eu quero não estiver
 			 * disponível na lista de OrderStatus , será lançado uma exceção
 			 */
+		
+		
 
 		throw new IllegalArgumentException("Invalid OrderStatus code");
 	}
