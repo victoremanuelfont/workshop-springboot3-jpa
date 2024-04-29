@@ -46,5 +46,11 @@ public class UserService {
 	public User insert(User obj) {
 		return repository.save(obj);
 	}
+	
+	// Vai ser passado o id do usuário e vai ser deletado o usuário daquele id
+	public void delete(Long id) {
+		repository.deleteById(id);
+		
+	}
 
 }
