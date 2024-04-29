@@ -13,6 +13,8 @@ import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 /*
  * Component registration = Quando um objeto vai ser injetado a classe desse objeto 
  * tem que ta registrada no mecanismo de injeção de dependencia.
@@ -74,9 +76,13 @@ public class UserService {
 	 * = Atualiza os dados do entity com base nos dados que chegaram no obj
 	 */
 	public User update(Long id, User obj) {
+		try {
 		User entity = repository.getReferenceById(id);
 		updateData(entity, obj);
 		return repository.save(entity);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 
 	}
 
