@@ -5,11 +5,6 @@ import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/*
- * Quando da erro em um requisição, o spring, no postman, retorna dados como timestamp, status,... etc.
- *  Para que possa ser feito um tratamento manual e que seja retornado tais objetos, faz-se essa classe:  
- */
-
 public class StandardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;

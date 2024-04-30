@@ -24,13 +24,7 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 
-	/*
-	 * Após atribuir o mapeamento @ManyToMany, utiliza-se o "mappedBy" e adiciona o
-	 * nome da set da outra outra classe, que no caso é Product. "categories" é o
-	 * nome atribuido ao set da classe Producty
-	 */
-
-	@JsonIgnore // Para evitar o loop
+	@JsonIgnore
 	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
 

@@ -29,18 +29,6 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgUrl;
 
-	/*
-	 * ManyToMany com JoinTable. 1) Escolhe uma das classes, tanto faz, poderia ser
-	 * Product ou Category. Faz o mapeamento @ManyToMany, para que as Coleções Set
-	 * se tornem tabelas no banco de dados. 2) Usa o JoinTable para dizer qual o
-	 * nome da tabela e qual vai ser a chave estrangeira que vai associar a tabela
-	 * de product com a tabela de category. joinColumns = nome da chave estrangeira
-	 * referente a tabela de Product. inverseJoinColumns = Definir a chave
-	 * estrangeira da outra entidade, que nesse caso, como estou na classe Product,
-	 * então é a outra entidade é a tabela da classe Category.
-	 * 
-	 * 
-	 */
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
@@ -52,7 +40,6 @@ public class Product implements Serializable {
 
 	}
 
-	// Não coloca coleções no Construtor. Pq ela já está sendo instanciada.
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		super();
 		this.id = id;
@@ -107,18 +94,13 @@ public class Product implements Serializable {
 		return categories;
 	}
 
-	/*
-	 * getOrders() = mesmo nome projetado no diagrama (- orders). É necessário
-	 * varrer os orderItem, e para cada orderItem será pego o order associado ao
-	 * orderItem.
-	 */
 	@JsonIgnore
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
-		for (OrderItem x : items) { // Percorrendo cada objeto do tipo OrderItem contido na lista de "items"
-			set.add(x.getOrder());// Vai ser adicionado no set
+		for (OrderItem x : items) {
+			set.add(x.getOrder());
 		}
-		return set; // Apos fazer isso com todos, será retornado o set
+		return set;
 	}
 
 	@Override

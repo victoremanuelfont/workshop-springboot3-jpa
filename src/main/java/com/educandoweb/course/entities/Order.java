@@ -33,30 +33,14 @@ public class Order implements Serializable {
 	private Instant moment;
 
 	@ManyToOne
-	@JoinColumn(name = "client_id") // Nome da chave estrangeira.
-	private User client; // Associação. Um pedido tem Um cliente.
+	@JoinColumn(name = "client_id")
+	private User client;
 
-	/*
-	 * O OrderStatus, que é tipo enumerado, será integer, para que seja gravado no
-	 * banco de dados como Inteiro. Mas para isso será feito alterações no
-	 * construtuor e nos get e set.
-	 */
 	private Integer orderStatus;
-
-	/*
-	 * No OrderItem, eu tenho o id, e o id tem o pedido. Por isso "id.order"
-	 */
 
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 
-	// Um order tem zero ou um Payment
-	/*
-	 * No caso de OneToOne, é essa configuração pois estamos mapeando as duas
-	 * entidades para ter o mesmo id. Se o Order for codigo 5, o payment tb vai ter
-	 * o mesmo código 5.
-	 * 
-	 */
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 
@@ -86,18 +70,10 @@ public class Order implements Serializable {
 		this.moment = moment;
 	}
 
-	/*
-	 * Para que seja retornado um OrderStatus, enquanto Integer, utiliza-se o método
-	 * lá em enum, . valueOf.
-	 */
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}
 
-	/*
-	 * A alteração necessária precisa de .getCode(); E foi adicionada uma
-	 * vericicação, caso seja passado um valor null;
-	 */
 	public void setOrderStatus(OrderStatus orderStatus) {
 		if (orderStatus != null) {
 			this.orderStatus = orderStatus.getCode();
@@ -142,12 +118,12 @@ public class Order implements Serializable {
 	}
 
 	public Double getTotal() {
-		double sum =0.0;
-		for(OrderItem x : items) {
+		double sum = 0.0;
+		for (OrderItem x : items) {
 			sum = sum + x.getSubTotal();
 		}
 		return sum;
-		
+
 	}
-	
+
 }

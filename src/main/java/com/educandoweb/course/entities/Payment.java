@@ -24,10 +24,6 @@ public class Payment implements Serializable {
 	private Long id;
 	private Instant moment;
 
-	/*
-	 * A classe Payment é uma classe dependente. Porque Order pode ter zero
-	 * pagamentos, e ainda assim existir no banco de dados.
-	 */
 	@JsonIgnore
 	@OneToOne
 	@MapsId

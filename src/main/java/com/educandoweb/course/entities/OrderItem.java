@@ -16,11 +16,6 @@ public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * Primeiro atributo é o identificador que corresponde a chave primária. Vai ser
-	 * do tipo OrderItemPK. O tipo do mapeamento é @EmbeddedId. É necessário
-	 * instanciar para que o valor do id não seja nulo.
-	 */
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
 
@@ -30,11 +25,6 @@ public class OrderItem implements Serializable {
 	public OrderItem() {
 	}
 
-	/*
-	 * Adicionados o Order e o public manualmente no construtor, assim como a
-	 * criação dos get e set
-	 */
-
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 		super();
 		id.setOrder(order);
@@ -43,14 +33,6 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
-	/*
-	 * Devido a ssociação de mão dupla entre orderItem, e o order, precisa por um
-	 * jsonignore para evitar o loop. Nesse caso, foi colado no get, já que no
-	 * OrderItem, não tem o atributo direto, ele tem o id e o id que tem a
-	 * associação com o Order. Mas o que vale é o metodo Get, pois o GetOrder que
-	 * chama o GetOrderItem, e o getOrderItem chama de novo o getOrder, e então
-	 * entra no loop.
-	 */
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
@@ -84,10 +66,6 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
-	/*
-	 * Na plataforma JavaEnterprise, o que vale é o get, então para aparecer no
-	 * resultado, no Json, é necessario colocar get nao método
-	 */
 	public Double getSubTotal() {
 		return quantity * price;
 	}
